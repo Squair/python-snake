@@ -8,13 +8,13 @@ random.seed()
 clear = lambda: os.system('cls')
 
 #Map variables
-mapHeight = 5
-mapWidth = 5
+mapHeight = 15
+mapWidth = 15
 
 #The map itself
 snakeMap = [[str for i in range(mapHeight)] for j in range(mapWidth)]
 
-#Keep track of snake head seperatly
+#Keep track of snake head seperatly, default position in middle of map
 snakeHead = {
     "X": int(mapWidth / 2),
     "Y": int(mapHeight / 2)
@@ -29,6 +29,7 @@ running = True
 won = False
 score = 0
 
+#Draws the map in its current state to the console window
 def drawMap():
     clear()
     for row in range(mapHeight):
@@ -38,18 +39,22 @@ def drawMap():
     print()
     print(snakeHead)
     print("Score: " + str(score))
-    
+
+#Initialises the map with boundries and empty spaces to move in
 def setMap():
     for row in range(mapHeight):
         for col in range(mapWidth):
+            #Set boundry edges
             if col in [0, mapWidth - 1] or row in [0, mapHeight - 1]:
                 snakeMap[col][row] = '.'
             else:
                 snakeMap[col][row] = ' '
             
+            #Place snakeHead at default position
             if row == snakeHead['Y'] and col == snakeHead['X']:
                 snakeMap[col][row] = 'O'
 
+#Get getch input, only return if character is one of wasd
 def getDirection(getch):
     if getch in [b'w', b'a', b's', b'd']:
         return getch
@@ -142,7 +147,7 @@ def game():
     while running:
         processMove()
         drawMap()
-        time.sleep(1.1)
+        time.sleep(0.1)
     if won == False:
         print("You lose!")
     else:
